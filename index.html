@@ -22,12 +22,11 @@
         </form>
         <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
         <script>
-            var socket = io();
-          
-            var messages = document.getElementById('messages');
-            var form = document.getElementById('form');
-            var input = document.getElementById('input');
-          
+            const socket = io();
+            const messages = document.getElementById('messages');
+            const form = document.getElementById('form');
+            const input = document.getElementById('input');
+
             form.addEventListener('submit', function(e) {
               e.preventDefault();
               if (input.value) {
@@ -35,9 +34,9 @@
                 input.value = '';
               }
             });
-          
+
             socket.on('chat message', function(msg) {
-              var item = document.createElement('li');
+              const item = document.createElement('li');
               item.textContent = msg;
               messages.appendChild(item);
               window.scrollTo(0, document.body.scrollHeight);
