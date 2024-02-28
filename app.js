@@ -1,12 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express()
+require('dotenv').config();
+const cors = require('cors');np
+const app = express();
+app.use(cors());
 
 mongoose
-    .connect("asdf", {
+    .connect(process.env.DB, {
         useNewUrlParser : true,
         useUnifiedTopology : true,
     })
     .then(() => console.log("connected to database"));
 
-module.express;
+module.exports = app;
