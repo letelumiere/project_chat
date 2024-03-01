@@ -1,37 +1,17 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+const {createServer} = require("http");
+const app = require("./app");
+const {Server} = require("socket.io");
+require("dotenv").config();
 
 
-//websocket은 .onmessage()와 .send로 통신을 한다? 
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+    cors : {
+        origin : "http://localhost:3000"
+    }
 });
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+require("./utils/io")(io);
+httpServer.listen(process.env.PORT, () => {
+    console.log("Server listening on port", process.env.PORT);
 });
-
-io.on('connection', (socket) => {
-    console.log('user connected.');
-
-    socket.on('disconnect', (socket) => {
-        console.log('is disconnected.');
-    });
-
-    socket.on('chat message', (msg) => {
-        console.log("message: " + msg);
-    });
-
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
-    });
-
-    socket.broadcast.emit('hi');
-});
-
-
